@@ -10,11 +10,25 @@ import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 public class PasswordDashboardController implements Initializable {
 
     @FXML
     private ListView<Item> listView;
+    @FXML
+    private TextField username;
+    @FXML
+    private Label password;
+    @FXML
+    private TextField note;
+    @FXML
+    private Label lastMod;
+    @FXML
+    private Label created;
+    @FXML
+    private Label title;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
