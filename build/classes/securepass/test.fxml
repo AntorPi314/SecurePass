@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="securepass.ListCellController">
+    <ImageView fx:id="imageView" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="10" />
+    <VBox AnchorPane.leftAnchor="70" AnchorPane.topAnchor="10">
+        <Label fx:id="nameLabel" />
+        <Label fx:id="emailLabel" />
+    </VBox>
+</AnchorPane>
