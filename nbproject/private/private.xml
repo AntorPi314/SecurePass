@@ -3,11 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/SecurePass.java</file>
-            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/SignUp.fxml</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/PasswordDashboard.fxml</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/ListCellController.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/PasswordDashboardController.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/list_cell.fxml</file>
             <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/FXMLDocumentController.java</file>
-            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/FXMLDocument.fxml</file>
-            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/SignUpController.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/test.fxml</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/ListCell.fxml</file>
         </group>
     </open-files>
 </project-private>
