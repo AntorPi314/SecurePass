@@ -1,6 +1,5 @@
 package securepass;
 
-
 public class Record {
     private int id;
     private String type;
@@ -19,8 +18,6 @@ public class Record {
         this.lastUpdatedTime = lastUpdatedTime;
         this.createdTime = createdTime;
     }
-
-    // Getters and Setters
 
     public int getId() {
         return id;
