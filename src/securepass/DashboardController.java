@@ -11,7 +11,7 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Preferences prefs = Preferences.userRoot().node("securepassApp"); // Same fixed name
+        Preferences prefs = Preferences.userRoot().node("securepassApp");
         loggedInUser = prefs.get("loggedInUser", "defaultUser");
         System.out.println("Logged in user name: " + loggedInUser);
     }

@@ -44,7 +44,7 @@ public class Database {
             stmt.setString(1, username);
             stmt.setString(2, password);
             try (ResultSet rs = stmt.executeQuery()) {
-                return rs.next(); 
+                return rs.next();
             }
         } catch (SQLException e) {
             System.out.println("Error in validating user: " + e.getMessage());
@@ -231,4 +231,29 @@ public class Database {
         }
         return false;
     }
+
+    public Record getRecordById(String username, int id) {
+        String tableName = "table_" + username;
+        String selectSQL = "SELECT * FROM " + tableName + " WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(selectSQL)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    String type = rs.getString("type");
+                    String dbUsername = rs.getString("username");
+                    String password = rs.getString("password");
+                    String note = rs.getString("note");
+                    String createdTime = rs.getString("created_time");
+                    String lastUpdatedTime = rs.getString("last_updated_time");
+
+                    return new Record(id, type, dbUsername, password, note, lastUpdatedTime, createdTime);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in retrieving record by ID: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

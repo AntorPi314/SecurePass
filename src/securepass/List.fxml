@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.ImageView?>
 
-<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="securepass.ListCellController">
+<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="securepass.ListController">
     <ImageView fx:id="imageView" />
     <VBox>
         <Label fx:id="typeLabel" />
