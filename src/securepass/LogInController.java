@@ -12,8 +12,12 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.Initializable;
+import java.util.prefs.Preferences;
 
-public class LogInController {
+public class LogInController implements Initializable {
 
     @FXML
     private Label tc;
@@ -23,17 +27,17 @@ public class LogInController {
     private PasswordField passwordField;
     @FXML
     private Label lblError;
-    
+
     private Database db;
 
-    public void initialize() {
+    public void initialize(URL url, ResourceBundle rb) {
         db = new Database();
         db.connect();
         db.createUserTable();
     }
 
     @FXML
-    private void handleLogin(ActionEvent event) {
+    private void handleLogin(ActionEvent event) throws IOException {
         String username = usernameField.getText();
         String password = passwordField.getText();
         if (username.isEmpty() || password.isEmpty()) {
@@ -41,21 +45,21 @@ public class LogInController {
             return;
         }
         if (db.validateUser(username, password)) {
-            System.out.println("Login successful!");
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("PasswordDashboard.fxml"));
-                Parent dashboardRoot = loader.load();
-                //PasswordDashboardController dashboardController = loader.getController();
-                //dashboardController.setLoggedInUser(username);
-                Scene dashboardScene = new Scene(dashboardRoot);
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(dashboardScene);
-                stage.setTitle("Dashboard");
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-                showAlert("Error", "Unable to load the dashboard. Please try again.");
-            }
+            Preferences prefs = Preferences.userRoot().node("securepassApp"); // Use a fixed name for the preferences node
+            prefs.put("loggedInUser", username);
+            System.out.println("Save in prefs: " + username);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("PasswordDashboard.fxml"));
+            Parent root = loader.load();
+
+            //PasswordDashboardController dashboardController = loader.getController();
+            //dashboardController.setLoggedInUser(username);
+            
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            stage.setTitle("Password Dashboard");
         } else {
             System.out.println("Invalid login credentials.");
             lblError.setText("Invalid username or password.");

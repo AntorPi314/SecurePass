@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
+
     private Connection connection;
 
     public void connect() {
@@ -43,7 +44,7 @@ public class Database {
             stmt.setString(1, username);
             stmt.setString(2, password);
             try (ResultSet rs = stmt.executeQuery()) {
-                return rs.next(); // Returns true if a record is found
+                return rs.next(); 
             }
         } catch (SQLException e) {
             System.out.println("Error in validating user: " + e.getMessage());
@@ -84,6 +85,20 @@ public class Database {
                 + ");";
         System.out.println("Table Name: " + tableName);
         System.out.println("SQL Query: " + createTableSQL);
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(createTableSQL);
+            System.out.println("Table " + tableName + " created successfully (if not exists).");
+        } catch (SQLException e) {
+            System.out.println("Error in creating records table: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void createInfoTable() {
+        String tableName = "Info";
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS " + tableName
+                + " (loggedInUser TEXT"
+                + ");";
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(createTableSQL);
             System.out.println("Table " + tableName + " created successfully (if not exists).");
@@ -201,5 +216,19 @@ public class Database {
             e.printStackTrace();
         }
         return records;
+    }
+
+    public boolean isTableExist(String tableName) {
+        String checkTableSQL = "SELECT name FROM sqlite_master WHERE type='table' AND name=?";
+        try (PreparedStatement stmt = connection.prepareStatement(checkTableSQL)) {
+            stmt.setString(1, tableName);
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in checking if table exists: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
     }
 }

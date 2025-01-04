@@ -38,6 +38,9 @@ public class SignUpController {
             alert.setContentText("Account created successfully!");
             alert.showAndWait();
             db.createRecordsTable(username);
+            if (!db.isTableExist("Info")) {
+                db.createInfoTable();
+            }
             switchToLogin();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
