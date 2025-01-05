@@ -33,7 +33,7 @@
             <Button layoutX="127.0" layoutY="342.0" mnemonicParsing="false" onAction="#switchToSignup" style="-fx-background-color: #040C2C;" text="Sign Up" textFill="#5377f7" />
          </children>
       </AnchorPane>
-      <Label fx:id="tc" layoutX="461.0" layoutY="361.0" text="Terms &amp; Conditions" textFill="#858a94" />
       <Label fx:id="lblError" layoutX="364.0" layoutY="307.0" prefHeight="18.0" prefWidth="299.0" textAlignment="CENTER" textFill="red" />
+      <Button layoutX="470.0" layoutY="341.0" mnemonicParsing="false" onAction="#PrivacyPolicy" style="-fx-background-color: #2B2738;" text="Privacy Policy" textFill="#858a94" />
     </children>
 </AnchorPane>

@@ -30,7 +30,7 @@
             <Button layoutX="135.0" layoutY="343.0" mnemonicParsing="false" onAction="#switchToLogin" style="-fx-background-color: #040C2C;" text="LogIn" textFill="#5377f7" />
          </children>
       </AnchorPane>
-      <Label fx:id="tc" layoutX="461.0" layoutY="361.0" text="Terms &amp; Conditions" textFill="#858a94" />
+      <Button layoutX="470.0" layoutY="341.0" mnemonicParsing="false" onAction="#PrivacyPolicy" style="-fx-background-color: #2B2738;" text="Privacy Policy" textFill="#858a94" />
       <TextField fx:id="usernameField" layoutX="364.0" layoutY="104.0" prefHeight="35.0" prefWidth="299.0" promptText="Username" />
       <TextField fx:id="emailField" layoutX="364.0" layoutY="160.0" prefHeight="35.0" prefWidth="299.0" promptText="Email" />
       <TextField fx:id="passwordField" layoutX="364.0" layoutY="217.0" prefHeight="35.0" prefWidth="299.0" promptText="Password" />

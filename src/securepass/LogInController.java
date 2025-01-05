@@ -16,11 +16,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import java.util.prefs.Preferences;
+import javafx.application.Platform;
 
 public class LogInController implements Initializable {
 
-    @FXML
-    private Label tc;
     @FXML
     private TextField usernameField;
     @FXML
@@ -31,9 +30,20 @@ public class LogInController implements Initializable {
     private Database db;
 
     public void initialize(URL url, ResourceBundle rb) {
+        Preferences prefs = Preferences.userRoot().node("securepassApp");
+        usernameField.setText(prefs.get("loggedInUser", ""));
         db = new Database();
         db.connect();
         db.createUserTable();
+
+        passwordField.setOnAction(event -> {
+            try {
+                handleLogin(new ActionEvent(passwordField, null));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        Platform.runLater(() -> passwordField.requestFocus());
     }
 
     @FXML
@@ -45,7 +55,7 @@ public class LogInController implements Initializable {
             return;
         }
         if (db.validateUser(username, password)) {
-            Preferences prefs = Preferences.userRoot().node("securepassApp"); // Use a fixed name for the preferences node
+            Preferences prefs = Preferences.userRoot().node("securepassApp");
             prefs.put("loggedInUser", username);
             System.out.println("Save in prefs: " + username);
 
@@ -54,12 +64,13 @@ public class LogInController implements Initializable {
 
             //PasswordDashboardController dashboardController = loader.getController();
             //dashboardController.setLoggedInUser(username);
-            
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
-            stage.show();
             stage.setTitle("Password Dashboard");
+            stage.show();
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
         } else {
             System.out.println("Invalid login credentials.");
             lblError.setText("Invalid username or password.");
@@ -87,5 +98,15 @@ public class LogInController implements Initializable {
         alert.setTitle(title);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void PrivacyPolicy(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("PrivacyPolicy.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Privacy Policy");
+        stage.show();
     }
 }

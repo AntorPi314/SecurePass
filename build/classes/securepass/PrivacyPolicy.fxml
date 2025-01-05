@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="378.0" prefWidth="600.0" style="-fx-background-color: #2B2738;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1">
+   <children>
+      <Label layoutX="38.0" layoutY="116.0" prefHeight="56.0" prefWidth="490.0" text="Your data is stored locally on your device. We do not store&#10;or transmit any data to external servers or cloud platforms." textFill="WHITE" wrapText="true" />
+      <Label layoutX="38.0" layoutY="104.0" text="No Data Storage on Cloud or Web" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="38.0" layoutY="188.0" prefHeight="74.0" prefWidth="563.0" text="All data is stored in a local database. If deleted, it cannot&#10;be recovered. Back up your database to a secure location&#10;like a cloud drive or external storage." textFill="WHITE" wrapText="true" />
+      <Label layoutX="38.0" layoutY="177.0" text="Backup Responsibility" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="38.0" layoutY="280.0" prefHeight="56.0" prefWidth="490.0" text="Passwords are encrypted for security, ensuring no one can&#10;steal or access them, even if the database is compromised." textFill="WHITE" wrapText="true" />
+      <Label layoutX="38.0" layoutY="268.0" text="Encrypted Passwords" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="396.0" layoutY="123.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@image/privacy.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="38.0" layoutY="39.0" text="Privacy Policy" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

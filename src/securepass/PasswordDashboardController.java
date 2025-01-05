@@ -19,9 +19,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 
 public class PasswordDashboardController {
 
@@ -268,6 +272,18 @@ public class PasswordDashboardController {
         created.setText(record.getCreatedTime());
     }
 
+    private boolean showConfirmationDialog(String Msg) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Are you sure?");
+        alert.setContentText(Msg);
+        ButtonType yesButton = new ButtonType("Yes");
+        ButtonType noButton = new ButtonType("No");
+        alert.getButtonTypes().setAll(yesButton, noButton);
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == yesButton;
+    }
+
     @FXML
     private void handleAdd() {
         String type = typeField.getText();
@@ -292,6 +308,9 @@ public class PasswordDashboardController {
 
     @FXML
     private void handleUpdate() {
+        if (showConfirmationDialog("Do you want to Update?")) {
+            return;
+        }
         Record selectedRecord = tableView.getSelectionModel().getSelectedItem();
         if (selectedRecord != null) {
             String type = typeField.getText();

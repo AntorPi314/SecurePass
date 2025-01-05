@@ -13,6 +13,7 @@ public class SecurePass extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("LogIn.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle("Login");
         stage.show();
     }
     

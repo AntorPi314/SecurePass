@@ -1,7 +1,11 @@
 package securepass;
 
+import java.io.IOException;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -10,8 +14,6 @@ import javafx.stage.Stage;
 
 public class SignUpController {
 
-    @FXML
-    private Label tc;
     @FXML
     private TextField usernameField;
     @FXML
@@ -56,9 +58,20 @@ public class SignUpController {
         try {
             Stage stage = (Stage) usernameField.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("LogIn.fxml"));
+            stage.setTitle("Login");
             stage.setScene(new Scene(loader.load()));
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void PrivacyPolicy(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("PrivacyPolicy.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Privacy Policy");
+        stage.show();
     }
 }
