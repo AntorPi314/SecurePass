@@ -5,8 +5,11 @@
         <group>
             <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/SecurePass.java</file>
             <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/PasswordDashboardController.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/SignUp.fxml</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/LogIn.fxml</file>
             <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/SignUpController.java</file>
             <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/LogInController.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/PrivacyPolicy.fxml</file>
         </group>
     </open-files>
 </project-private>
