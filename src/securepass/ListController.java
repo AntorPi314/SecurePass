@@ -6,17 +6,36 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class ListController {
-    @FXML public ImageView imageView;
-    @FXML public Label typeLabel;
-    @FXML public Label usernameLabel;
+
+    @FXML
+    public ImageView imageView;
+    @FXML
+    public Label typeLabel;
+    @FXML
+    public Label usernameLabel;
 
     public void setData(String id, String type, String username) {
-        if (type == "Facebook") {
+        if (null == type) {
             Image image = new Image(getClass().getResource("/securepass/image/antor.jpg").toExternalForm());
             imageView.setImage(image);
         } else {
-            Image image = new Image(getClass().getResource("/securepass/image/antor.jpg").toExternalForm());
-            imageView.setImage(image);
+            switch (type) {
+                case "Facebook": {
+                    Image image = new Image(getClass().getResource("/securepass/image/fb_48.png").toExternalForm());
+                    imageView.setImage(image);
+                    break;
+                }
+                case "Twitter": {
+                    Image image = new Image(getClass().getResource("/securepass/image/x_48.png").toExternalForm());
+                    imageView.setImage(image);
+                    break;
+                }
+                default: {
+                    Image image = new Image(getClass().getResource("/securepass/image/antor.jpg").toExternalForm());
+                    imageView.setImage(image);
+                    break;
+                }
+            }
         }
         typeLabel.setText(type);
         usernameLabel.setText(username);

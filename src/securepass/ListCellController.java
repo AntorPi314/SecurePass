@@ -16,11 +16,11 @@ public class ListCellController {
 
     public void setData(String imagePath, String name, String email) {
         if (name == "Facebook") {
-            Image image = new Image(getClass().getResource("/securepass/image/antor.jpg").toExternalForm());
-            imageView.setImage(image);
+            Image image = new Image(getClass().getResource("/securepass/image/fb_48.png").toExternalForm());
+            //imageView.setImage(image);
         } else {
             Image image = new Image(getClass().getResource("/securepass/image/antor.jpg").toExternalForm());
-            imageView.setImage(image);
+            //imageView.setImage(image);
         }
         nameLabel.setText(name);
         emailLabel.setText(email);

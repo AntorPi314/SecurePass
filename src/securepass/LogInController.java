@@ -62,8 +62,9 @@ public class LogInController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("PasswordDashboard.fxml"));
             Parent root = loader.load();
 
-            //PasswordDashboardController dashboardController = loader.getController();
-            //dashboardController.setLoggedInUser(username);
+            PasswordDashboardController passwordDashboardController = loader.getController();
+            passwordDashboardController.setLoggedInPass(password);
+            
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);

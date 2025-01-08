@@ -22,10 +22,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXML;
+import javafx.stage.Stage;
 
 public class PasswordDashboardController {
 
@@ -82,7 +90,10 @@ public class PasswordDashboardController {
     private ObservableList<Record> records;
 
     public String loggedInUser = "a";
+    private String logedInPass;
     public String selectedID;
+    public int selectedIndex;
+    private Stage primaryStage;
     @FXML
     private ListView<itemPass> listView1;
     @FXML
@@ -92,10 +103,9 @@ public class PasswordDashboardController {
     @FXML
     private TextArea NField;
 
-    public void setLoggedInUser(String username) {
-        loggedInUser = username;
-        System.out.println("Logged in as: " + username);
-        records.setAll(db.getAllRecordsForUser(loggedInUser));
+    public void setLoggedInPass(String pass) {
+        logedInPass = pass;
+        System.out.println("Logged in pass: " + pass);
     }
 
     private void populateListViewWithUsernames() {
@@ -159,6 +169,47 @@ public class PasswordDashboardController {
 
     }
 
+    public void JustCall() {
+        System.out.println("Hi! you just call me?)");
+    }
+
+    @FXML
+    private void AddBtn1(ActionEvent event) throws IOException {
+        System.out.println("SelectedID: " + selectedID);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AddPassword.fxml"));
+        Parent root = loader.load();
+        AddPasswordController controller = loader.getController();
+        controller.setController(this);
+
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Add New Password");
+        stage.show();
+    }
+
+    @FXML
+    private void UpdateBtn1(ActionEvent event) throws IOException {
+        if (selectedID == null) {
+            return;
+        }
+        System.out.println("SelectedID: " + selectedID);
+        
+        System.out.println("SelectedListItem: " + selectedIndex);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AddPassword.fxml"));
+        Parent root = loader.load();
+        AddPasswordController controller = loader.getController();
+        controller.setController(this);
+        controller.setInfo(title.getText(), UField.getText(), PField.getText(), NField.getText());
+
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Add New Password");
+        stage.show();
+
+    }
+
     static class Item {
 
         String imagePath;
@@ -218,8 +269,8 @@ public class PasswordDashboardController {
     private static class CustomListCellForItemPass extends ListCell<PasswordDashboardController.itemPass> {
 
         private HBox content;
-        private ListController controller; // Add a reference to loggedInUser
-        private PasswordDashboardController controllerRef; // Reference to PasswordDashboardController
+        private ListController controller;
+        private PasswordDashboardController controllerRef;
 
         public CustomListCellForItemPass(PasswordDashboardController controller) {
             try {
@@ -248,7 +299,7 @@ public class PasswordDashboardController {
                     controller.typeLabel.setStyle("-fx-text-fill: #FFFFFF;");
                     controller.usernameLabel.setStyle("-fx-text-fill: #FFFFFF;");
                     System.out.println("Clicked item: " + item.id);
-                    controllerRef.setSelectedData(item.id);  // Call the setSelectedData method
+                    controllerRef.setSelectedData(item.id);
                 });
                 focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
                     if (!isNowFocused) {
@@ -262,9 +313,11 @@ public class PasswordDashboardController {
     }
 
     public void setSelectedData(String selectedItemID) {
-        //selectedID = selectedItemID;
+        selectedID = selectedItemID;
+        selectedIndex = listView1.getSelectionModel().getSelectedIndex();
         Record record = db.getRecordById(loggedInUser, Integer.parseInt(selectedItemID));
         usernameField.setText(record.getNote());
+        title.setText(record.getType());
         UField.setText(record.getUsername());
         PField.setText(record.getPassword());
         NField.setText(record.getNote());
@@ -306,6 +359,27 @@ public class PasswordDashboardController {
         }
     }
 
+    public void handleAdd2(String type, String username, String password, String note) {
+        System.out.println("Type: " + type);
+        System.out.println("Username: " + username);
+        System.out.println("Password: " + password);
+        System.out.println("Note: " + note);
+        if (type.isEmpty() || username.isEmpty() || password.isEmpty()) {
+            showAlert("Error", "Type, Username, and Password fields cannot be empty.");
+            return;
+        }
+        LocalDateTime now = LocalDateTime.now();
+        String createdTime = formatTime(now);
+        String lastUpdatedTime = createdTime;
+        int id = db.addRecord(loggedInUser, type, username, password, note, createdTime, lastUpdatedTime);
+        if (id != -1) {
+            records.add(new Record(id, type, username, password, note, lastUpdatedTime, createdTime));
+        } else {
+            showAlert("Error", "Failed to add the record.");
+        }
+        handleSearch();
+    }
+
     @FXML
     private void handleUpdate() {
         if (showConfirmationDialog("Do you want to Update?")) {
@@ -338,6 +412,25 @@ public class PasswordDashboardController {
         }
     }
 
+    public void handleUpdate2(String type, String username, String password, String note) {
+        if (selectedID != null) {
+            if (type.isEmpty() || username.isEmpty() || password.isEmpty()) {
+                showAlert("Error", "Type, Username, and Password fields cannot be empty.");
+                return;
+            }
+            String lastUpdatedTime = formatTime(LocalDateTime.now());
+            if (db.updateRecord(loggedInUser, Integer.parseInt(selectedID), type, username, password, note, lastUpdatedTime)) {
+                tableView.refresh();
+                clearFields();
+            } else {
+                showAlert("Error", "Failed to update the record.");
+            }
+        } else {
+            showAlert("Warning", "Please select a record to update.");
+        }
+        handleSearch();
+    }
+
     @FXML
     private void handleDelete() {
         Record selectedRecord = tableView.getSelectionModel().getSelectedItem();
@@ -354,6 +447,20 @@ public class PasswordDashboardController {
     }
 
     @FXML
+    private void handleDelete2() {
+        if (selectedID != null) {
+            if (db.deleteRecord(loggedInUser, Integer.parseInt(selectedID))) {
+                clearFields();
+            } else {
+                showAlert("Error", "Failed to delete the record.");
+            }
+        } else {
+            showAlert("Warning", "Please select a record to delete.");
+        }
+        handleSearch();
+    }
+
+    @FXML
     private void handleSearch() {
         String query = searchField.getText();
         if (query.isEmpty()) {
@@ -361,14 +468,14 @@ public class PasswordDashboardController {
         } else {
             records.setAll(db.searchRecordsForUser(loggedInUser, query));
         }
-        populateListViewWithUsernames();
+        populateListViewWithUsernames2();
     }
 
     private void clearFields() {
-        typeField.clear();
-        usernameField.clear();
-        passwordField.clear();
-        noteField.clear();
+        title.setText("Nothing");
+        UField.clear();
+        PField.clear();
+        NField.clear();
     }
 
     private String formatTime(LocalDateTime time) {
