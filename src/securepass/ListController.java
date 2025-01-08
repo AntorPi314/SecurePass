@@ -31,8 +31,33 @@ public class ListController {
                     imageView.setImage(image);
                     break;
                 }
-                case "Twitter": {
+                case "Twitter (X)": {
                     Image image = new Image(getClass().getResource("/securepass/image/x_48.png").toExternalForm());
+                    imageView.setImage(image);
+                    break;
+                }
+                case "Google": {
+                    Image image = new Image(getClass().getResource("/securepass/image/google_48.png").toExternalForm());
+                    imageView.setImage(image);
+                    break;
+                }
+                case "Instagram": {
+                    Image image = new Image(getClass().getResource("/securepass/image/insta_48.png").toExternalForm());
+                    imageView.setImage(image);
+                    break;
+                }
+                case "Tiktok": {
+                    Image image = new Image(getClass().getResource("/securepass/image/tiktok_48.png").toExternalForm());
+                    imageView.setImage(image);
+                    break;
+                }
+                case "Snapchat": {
+                    Image image = new Image(getClass().getResource("/securepass/image/snapchat_48.png").toExternalForm());
+                    imageView.setImage(image);
+                    break;
+                }
+                case "Discord": {
+                    Image image = new Image(getClass().getResource("/securepass/image/discord_48.png").toExternalForm());
                     imageView.setImage(image);
                     break;
                 }
