@@ -3,9 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/PasswordDashboard.fxml</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/ListController.java</file>
             <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/PasswordDashboardController.java</file>
-            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/SignUpController.java</file>
-            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/LogInController.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/List.fxml</file>
             <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/SecurePass/src/securepass/AddPasswordController.java</file>
         </group>
     </open-files>

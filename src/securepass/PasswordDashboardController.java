@@ -5,40 +5,34 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
 import java.io.IOException;
-import java.net.URL;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 import javafx.event.ActionEvent;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import javafx.stage.Stage;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
+import javafx.animation.PauseTransition;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 
 public class PasswordDashboardController {
 
-    @FXML
-    private ListView<Item> listView;
     @FXML
     private Label password;
     @FXML
@@ -74,18 +68,6 @@ public class PasswordDashboardController {
     @FXML
     private TextField searchField;
 
-    @FXML
-    private TextField typeField;
-
-    @FXML
-    private TextField usernameField;
-
-    @FXML
-    private PasswordField passwordField;
-
-    @FXML
-    private TextArea noteField;
-
     private Database db;
     private ObservableList<Record> records;
 
@@ -102,18 +84,24 @@ public class PasswordDashboardController {
     private TextField PField;
     @FXML
     private TextArea NField;
+    @FXML
+    private Label welcome;
+    @FXML
+    private TextField PField_;
+    @FXML
+    private Label password1;
+    @FXML
+    private Label copy;
+    @FXML
+    private ImageView copyUser;
+    @FXML
+    private ImageView showHideImage;
+    @FXML
+    private ImageView copyPass;
 
     public void setLoggedInPass(String pass) {
         logedInPass = pass;
         System.out.println("Logged in pass: " + pass);
-    }
-
-    private void populateListViewWithUsernames() {
-        ObservableList<Item> items = FXCollections.observableArrayList();
-        for (Record record : records) {
-            items.add(new Item("https://avatars.githubusercontent.com/u/123496530?s=48&v=4", record.getUsername(), ""));
-        }
-        listView.setItems(items);
     }
 
     private void populateListViewWithUsernames2() {
@@ -126,9 +114,19 @@ public class PasswordDashboardController {
     }
 
     public void initialize() {
+        UField.setEditable(false);
+        PField.setEditable(false);
+        PField_.setEditable(false);
+        NField.setEditable(false);
+        searchField.setStyle("-fx-background-color:  #63676A; -fx-text-fill: #c1b7b7;");
+        UField.setStyle("-fx-background-color: #1D1D1D; -fx-text-fill: #efe9e9; -fx-font-weight: bold;");
+        PField.setStyle("-fx-background-color: #1D1D1D; -fx-text-fill: #efe9e9; -fx-font-weight: bold;");
+        PField_.setStyle("-fx-background-color: #1D1D1D; -fx-text-fill: #efe9e9; -fx-font-weight: bold;");
+        NField.setStyle("-fx-background-color: #1D1D1D; -fx-text-fill: #514c4c;");
         Preferences prefs = Preferences.userRoot().node("securepassApp");
         loggedInUser = prefs.get("loggedInUser", "defaultUser");
         System.out.println("Logged in username: " + loggedInUser);
+        welcome.setText("Welcome, " + loggedInUser);
 
         db = new Database();
         db.connect();
@@ -146,15 +144,7 @@ public class PasswordDashboardController {
             handleSearch();
         });
 
-        listView.setCellFactory(listView -> new CustomListCell());
-        listView.getItems().addAll(
-                new Item("https://avatars.githubusercontent.com/u/123496530?s=48&v=4", "John Doe", "john.doe@example.com"),
-                new Item("https://avatars.githubusercontent.com/u/123496530?s=48&v=4", "Jane Smith", "jane.smith@example.com"),
-                new Item("https://avatars.githubusercontent.com/u/123496530?s=48&v=4", "Alice Johnson", "alice.johnson@example.com")
-        );
-        listView.getItems().forEach(item -> System.out.println("Added item: " + item.name));
-
-        listView1.setCellFactory(listView -> new CustomListCellForItemPass(this)); // Pass db here
+        listView1.setCellFactory(listView1 -> new CustomListCellForItemPass(this));
 
         listView1.getItems().addAll(
                 new itemPass("https://avatars.githubusercontent.com/u/123496530?s=48&v=4", "Password", "John Doe"),
@@ -163,14 +153,31 @@ public class PasswordDashboardController {
         );
         listView1.getItems().forEach(item -> System.out.println("Added item: " + item.type));
 
-        populateListViewWithUsernames();
-
         populateListViewWithUsernames2();
-
     }
 
     public void JustCall() {
-        System.out.println("Hi! you just call me?)");
+        System.out.println("Hi! you just call me?");
+    }
+
+    @FXML
+    private void copyUsername() {
+        copyToClipboard(UField.getText());
+    }
+
+    @FXML
+    private void copyPassword() {
+        copyToClipboard(PField_.getText());
+    }
+
+    public void copyToClipboard(String text) {
+        ClipboardContent content = new ClipboardContent();
+        content.putString(text);
+        Clipboard.getSystemClipboard().setContent(content);
+        copy.setVisible(true);
+        PauseTransition pause = new PauseTransition(Duration.millis(500));
+        pause.setOnFinished(event -> copy.setVisible(false));
+        pause.play();
     }
 
     @FXML
@@ -194,7 +201,7 @@ public class PasswordDashboardController {
             return;
         }
         System.out.println("SelectedID: " + selectedID);
-        
+
         System.out.println("SelectedListItem: " + selectedIndex);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AddPassword.fxml"));
         Parent root = loader.load();
@@ -205,22 +212,9 @@ public class PasswordDashboardController {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setScene(scene);
-        stage.setTitle("Add New Password");
+        stage.setTitle("Update Password");
         stage.show();
 
-    }
-
-    static class Item {
-
-        String imagePath;
-        String name;
-        String email;
-
-        public Item(String imagePath, String name, String email) {
-            this.imagePath = imagePath;
-            this.name = name;
-            this.email = email;
-        }
     }
 
     static class itemPass {
@@ -236,36 +230,6 @@ public class PasswordDashboardController {
         }
     }
 
-    private static class CustomListCell extends ListCell<Item> {
-
-        private HBox content;
-        private ListCellController controller;
-
-        public CustomListCell() {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("ListCell.fxml"));
-                content = loader.load();
-                controller = loader.getController();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        protected void updateItem(Item item, boolean empty) {
-            super.updateItem(item, empty);
-            if (empty || item == null) {
-                setGraphic(null);
-            } else {
-                System.out.println("Updating item: " + item.name);
-                if (controller != null) {
-                    controller.setData(item.imagePath, item.name, item.email);
-                }
-                setGraphic(content);
-            }
-        }
-    }
-
     private static class CustomListCellForItemPass extends ListCell<PasswordDashboardController.itemPass> {
 
         private HBox content;
@@ -277,7 +241,7 @@ public class PasswordDashboardController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("List.fxml"));
                 content = loader.load();
                 this.controller = loader.getController();
-                this.controllerRef = controller;  // Save the reference to the main controller
+                this.controllerRef = controller;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -295,7 +259,7 @@ public class PasswordDashboardController {
                 }
                 setGraphic(content);
                 content.setOnMouseClicked(event -> {
-                    setStyle("-fx-background-color: #000000;");
+                    setStyle("-fx-background-color: #0075F6;");
                     controller.typeLabel.setStyle("-fx-text-fill: #FFFFFF;");
                     controller.usernameLabel.setStyle("-fx-text-fill: #FFFFFF;");
                     System.out.println("Clicked item: " + item.id);
@@ -304,8 +268,8 @@ public class PasswordDashboardController {
                 focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
                     if (!isNowFocused) {
                         setStyle("-fx-background-color: transparent;");
-                        controller.typeLabel.setStyle("-fx-text-fill: #000000;");
-                        controller.usernameLabel.setStyle("-fx-text-fill: #000000;");
+                        controller.typeLabel.setStyle("-fx-text-fill: #FFFFFF;");
+                        controller.usernameLabel.setStyle("-fx-text-fill: #FFFFFF;");
                     }
                 });
             }
@@ -316,13 +280,26 @@ public class PasswordDashboardController {
         selectedID = selectedItemID;
         selectedIndex = listView1.getSelectionModel().getSelectedIndex();
         Record record = db.getRecordById(loggedInUser, Integer.parseInt(selectedItemID));
-        usernameField.setText(record.getNote());
         title.setText(record.getType());
         UField.setText(record.getUsername());
         PField.setText(record.getPassword());
+        PField_.setText(record.getPassword());
         NField.setText(record.getNote());
-        lastMod.setText(record.getLastUpdatedTime());
-        created.setText(record.getCreatedTime());
+        lastMod.setText("Last Modified : " + record.getLastUpdatedTime());
+        created.setText("Created : " + record.getCreatedTime());
+    }
+
+    @FXML
+    private void showPassword() {
+        if (PField.isVisible()) {
+            PField.setVisible(false);
+            Image image = new Image(getClass().getResource("/securepass/image/show.png").toExternalForm());
+            showHideImage.setImage(image);
+        } else {
+            PField.setVisible(true);
+            Image image = new Image(getClass().getResource("/securepass/image/hide.png").toExternalForm());
+            showHideImage.setImage(image);
+        }
     }
 
     private boolean showConfirmationDialog(String Msg) {
@@ -335,28 +312,6 @@ public class PasswordDashboardController {
         alert.getButtonTypes().setAll(yesButton, noButton);
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == yesButton;
-    }
-
-    @FXML
-    private void handleAdd() {
-        String type = typeField.getText();
-        String username = usernameField.getText();
-        String password = passwordField.getText();
-        String note = noteField.getText();
-        if (type.isEmpty() || username.isEmpty() || password.isEmpty()) {
-            showAlert("Error", "Type, Username, and Password fields cannot be empty.");
-            return;
-        }
-        LocalDateTime now = LocalDateTime.now();
-        String createdTime = formatTime(now);
-        String lastUpdatedTime = createdTime;
-        int id = db.addRecord(loggedInUser, type, username, password, note, createdTime, lastUpdatedTime);
-        if (id != -1) {
-            records.add(new Record(id, type, username, password, note, lastUpdatedTime, createdTime));
-            clearFields();
-        } else {
-            showAlert("Error", "Failed to add the record.");
-        }
     }
 
     public void handleAdd2(String type, String username, String password, String note) {
@@ -380,38 +335,6 @@ public class PasswordDashboardController {
         handleSearch();
     }
 
-    @FXML
-    private void handleUpdate() {
-        if (showConfirmationDialog("Do you want to Update?")) {
-            return;
-        }
-        Record selectedRecord = tableView.getSelectionModel().getSelectedItem();
-        if (selectedRecord != null) {
-            String type = typeField.getText();
-            String username = usernameField.getText();
-            String password = passwordField.getText();
-            String note = noteField.getText();
-            if (type.isEmpty() || username.isEmpty() || password.isEmpty()) {
-                showAlert("Error", "Type, Username, and Password fields cannot be empty.");
-                return;
-            }
-            String lastUpdatedTime = formatTime(LocalDateTime.now());
-            if (db.updateRecord(loggedInUser, selectedRecord.getId(), type, username, password, note, lastUpdatedTime)) {
-                selectedRecord.setType(type);
-                selectedRecord.setUsername(username);
-                selectedRecord.setPassword(password);
-                selectedRecord.setNote(note);
-                selectedRecord.setLastUpdatedTime(lastUpdatedTime);
-                tableView.refresh();
-                clearFields();
-            } else {
-                showAlert("Error", "Failed to update the record.");
-            }
-        } else {
-            showAlert("Warning", "Please select a record to update.");
-        }
-    }
-
     public void handleUpdate2(String type, String username, String password, String note) {
         if (selectedID != null) {
             if (type.isEmpty() || username.isEmpty() || password.isEmpty()) {
@@ -432,22 +355,10 @@ public class PasswordDashboardController {
     }
 
     @FXML
-    private void handleDelete() {
-        Record selectedRecord = tableView.getSelectionModel().getSelectedItem();
-        if (selectedRecord != null) {
-            if (db.deleteRecord(loggedInUser, selectedRecord.getId())) {
-                records.remove(selectedRecord);
-                clearFields();
-            } else {
-                showAlert("Error", "Failed to delete the record.");
-            }
-        } else {
-            showAlert("Warning", "Please select a record to delete.");
-        }
-    }
-
-    @FXML
     private void handleDelete2() {
+        if(!showConfirmationDialog("You want to delete?")){
+            return;
+        }
         if (selectedID != null) {
             if (db.deleteRecord(loggedInUser, Integer.parseInt(selectedID))) {
                 clearFields();
@@ -460,7 +371,6 @@ public class PasswordDashboardController {
         handleSearch();
     }
 
-    @FXML
     private void handleSearch() {
         String query = searchField.getText();
         if (query.isEmpty()) {
@@ -476,6 +386,8 @@ public class PasswordDashboardController {
         UField.clear();
         PField.clear();
         NField.clear();
+        lastMod.setText("Last Modified : ");
+        created.setText("Created : ");
     }
 
     private String formatTime(LocalDateTime time) {

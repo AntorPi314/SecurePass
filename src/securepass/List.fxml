@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="securepass.ListController">
-    <ImageView fx:id="imageView" />
-    <VBox>
-        <Label fx:id="typeLabel" />
-        <Label fx:id="usernameLabel" />
+<HBox layoutX="10.0" layoutY="10.0" prefHeight="60.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="securepass.ListController">
+    <ImageView fx:id="imageView" fitHeight="50.0" fitWidth="50.0">
+      <HBox.margin>
+         <Insets top="5.0" />
+      </HBox.margin>
+      <image>
+         <Image url="@image/other_48.png" />
+      </image></ImageView>
+    <VBox prefHeight="58.0" prefWidth="211.0" spacing="5.0">
+        <Label fx:id="typeLabel" text="Type" textFill="WHITE">
+         <VBox.margin>
+            <Insets left="10.0" top="5.0" />
+         </VBox.margin>
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Label>
+        <Label fx:id="usernameLabel" text="Username" textFill="WHITE">
+         <VBox.margin>
+            <Insets left="10.0" />
+         </VBox.margin></Label>
     </VBox>
 </HBox>
