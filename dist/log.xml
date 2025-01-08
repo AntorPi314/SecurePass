@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>C:\Users\USER\OneDrive\Documents\NetBeansProjects\SecurePass\dist\SecurePass.jar</jar>
+  <outfile>C:\Users\USER\OneDrive\Documents\NetBeansProjects\SecurePass\dist\save.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl></downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>C:\Users\USER\OneDrive\Documents\NetBeansProjects\SecurePass\src\securepass\image\icon.ico</icon>
+  <jre>
+    <path>%JAVA_HOME%;%PATH%</path>
+    <requiresJdk>false</requiresJdk>
+    <requires64Bit>false</requires64Bit>
+    <minVersion>1.7</minVersion>
+    <maxVersion>1.9</maxVersion>
+  </jre>
+</launch4jConfig>

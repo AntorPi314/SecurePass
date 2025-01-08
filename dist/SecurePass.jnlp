@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="SecurePass.jar" size="1777582" download="eager" />
+    <jar href="SecurePass.jar" size="1843291" download="eager" />
     <jar href="lib\sqlite-jdbc-3.47.1.0.jar" size="14259880" download="eager" />
   </resources>
   <jfx:javafx-desc  width="800" height="600" main-class="securepass.SecurePass"  name="SecurePass" />
