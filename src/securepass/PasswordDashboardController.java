@@ -281,9 +281,11 @@ public class PasswordDashboardController {
         selectedIndex = listView1.getSelectionModel().getSelectedIndex();
         Record record = db.getRecordById(loggedInUser, Integer.parseInt(selectedItemID));
         title.setText(record.getType());
+        String pass = record.getPassword();
+        pass = EncryptionUtils.decrypt(pass, logedInPass);
         UField.setText(record.getUsername());
-        PField.setText(record.getPassword());
-        PField_.setText(record.getPassword());
+        PField.setText(pass);
+        PField_.setText(pass);
         NField.setText(record.getNote());
         lastMod.setText("Last Modified : " + record.getLastUpdatedTime());
         created.setText("Created : " + record.getCreatedTime());
@@ -315,6 +317,7 @@ public class PasswordDashboardController {
     }
 
     public void handleAdd2(String type, String username, String password, String note) {
+        password = EncryptionUtils.encrypt(password, logedInPass);
         System.out.println("Type: " + type);
         System.out.println("Username: " + username);
         System.out.println("Password: " + password);
@@ -336,6 +339,7 @@ public class PasswordDashboardController {
     }
 
     public void handleUpdate2(String type, String username, String password, String note) {
+        password = EncryptionUtils.encrypt(password, logedInPass);
         if (selectedID != null) {
             if (type.isEmpty() || username.isEmpty() || password.isEmpty()) {
                 showAlert("Error", "Type, Username, and Password fields cannot be empty.");

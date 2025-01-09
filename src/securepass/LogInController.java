@@ -50,6 +50,7 @@ public class LogInController implements Initializable {
     private void handleLogin(ActionEvent event) throws IOException {
         String username = usernameField.getText();
         String password = passwordField.getText();
+        password = EncryptionUtils.encrypt(username, password);
         if (username.isEmpty() || password.isEmpty()) {
             lblError.setText("Username and Password cannot be empty.");
             return;
@@ -63,7 +64,7 @@ public class LogInController implements Initializable {
             Parent root = loader.load();
 
             PasswordDashboardController passwordDashboardController = loader.getController();
-            passwordDashboardController.setLoggedInPass(password);
+            passwordDashboardController.setLoggedInPass(passwordField.getText());
             
             Scene scene = new Scene(root);
             Stage stage = new Stage();
